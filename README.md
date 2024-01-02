@@ -1,0 +1,3 @@
+# REST API made with GO (golang) and Gin (framework)
+
+Work in Progress...
