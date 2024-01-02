@@ -2,15 +2,14 @@ package models
 
 import (
 	"time"
-
 	"github.com/thegera4/events-rest-api/db"
 )
 
 type Event struct {
 	ID          int64   
-	Title       string `binding:"required"`
-	Description string `binding:"required"`
-	Location    string `binding:"required"`
+	Title       string 	  `binding:"required"`
+	Description string 	  `binding:"required"`
+	Location    string 	  `binding:"required"`
 	DateTime    time.Time `binding:"required"`
 	UserID      int   
 }
@@ -58,4 +57,34 @@ func GetAllEvents() ([]Event, error) {
 	}
 
 	return events, nil
+}
+
+func GetEventById(id int64) (*Event, error) {
+	query := "SELECT * FROM events WHERE id = ?"
+	row := db.DB.QueryRow(query, id) //QueryRow is used to get/fetch a single row
+
+	var e Event
+	err := row.Scan(&e.ID, &e.Title, &e.Description, &e.Location, &e.DateTime, &e.UserID)
+	if err != nil {
+		return nil, err
+	}
+
+	return &e, nil
+}
+
+func (event Event) Update() error {
+	query := `
+	UPDATE events
+	SET title = ?, description = ?, location = ?, date_time = ?
+	WHERE id = ?
+	`
+	stmt, err := db.DB.Prepare(query)
+	if err != nil {
+		return err
+	}
+
+	defer stmt.Close()
+
+	_, err = stmt.Exec(event.Title, event.Description, event.Location, event.DateTime, event.ID)
+	return err
 }
