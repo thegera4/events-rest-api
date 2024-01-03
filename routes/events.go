@@ -1,14 +1,16 @@
 package routes
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
+
 	"github.com/gin-gonic/gin"
 	"github.com/thegera4/events-rest-api/models"
+	"github.com/thegera4/events-rest-api/utils"
 )
 
 //handlers
-
 func getEvents(context *gin.Context) {
 	events, err := models.GetAllEvents()
 	if err != nil {
@@ -35,9 +37,23 @@ func getSingleEvent(context *gin.Context) {
 }
 
 func createEvent(context *gin.Context) {
+
+	token := context.Request.Header.Get("Authorization")
+
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized!"})
+		return
+	}
+
+	err := utils.ValidateToken(token)
+	if err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized!: " + err.Error()})
+		return
+	}
+
 	var event models.Event
 
-	err := context.ShouldBindJSON(&event) //store data from the body in "event" variable, can return err
+	err = context.ShouldBindJSON(&event) //store data from the body in "event" variable, can return err
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request data!"})
 		return

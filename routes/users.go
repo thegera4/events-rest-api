@@ -2,7 +2,6 @@ package routes
 
 import (
 	"net/http"
-
 	"github.com/gin-gonic/gin"
 	"github.com/thegera4/events-rest-api/models"
 	"github.com/thegera4/events-rest-api/utils"
