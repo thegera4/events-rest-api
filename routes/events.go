@@ -1,10 +1,8 @@
 package routes
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
-
 	"github.com/gin-gonic/gin"
 	"github.com/thegera4/events-rest-api/models"
 	"github.com/thegera4/events-rest-api/utils"
@@ -47,7 +45,7 @@ func createEvent(context *gin.Context) {
 
 	err := utils.ValidateToken(token)
 	if err != nil {
-		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized!: " + err.Error()})
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized!"})
 		return
 	}
 
@@ -64,7 +62,7 @@ func createEvent(context *gin.Context) {
 
 	err = event.Save()
 	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not save event!: " + err.Error()})
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not save event!"})
 		return
 	}
 	context.JSON(http.StatusCreated, gin.H{"status": "Event created successfully!", "event": event})
@@ -86,7 +84,7 @@ func updateEvent(context *gin.Context) {
 	var updatedEvent models.Event
 	err = context.ShouldBindJSON(&updatedEvent) //store data from the body in "updatedEvent" variable, can return err
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request data!: " + err.Error()})
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request data!"})
 		return
 	}
 
@@ -94,7 +92,7 @@ func updateEvent(context *gin.Context) {
 
 	err = updatedEvent.Update()
 	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not update event!: " + err.Error()})
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not update event!"})
 		return
 	}
 

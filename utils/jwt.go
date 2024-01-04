@@ -31,7 +31,7 @@ func ValidateToken(token string) error {
 
 	if err != nil {
 		fmt.Println("thew token fails here")
-		return errors.New("could not parse token: " + err.Error())
+		return errors.New("could not parse token")
 	}
 
 	tokenIsValid := parsedToken.Valid
