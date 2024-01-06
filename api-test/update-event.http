@@ -1,9 +1,10 @@
-PUT http://localhost:8080/events/3
+PUT http://localhost:8080/events/2
 content-type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxQGV4YW1wbGUuY29tIiwiZXhwIjoxNzA0NTY0MDg3LCJ1c2VySWQiOjF9.LBBZX2uxShd4JZFQ2QCPZYsyUFObbMMQN79lykyqt5M
 
 {
-    "title": "TRES",
-    "description": "Event 3 description",
-    "location": "Event 3 location",
-    "DateTime": "2024-06-01T15:35:00.000Z"
+    "title": "DOS",
+    "description": "Event 2 UPDATED description",
+    "location": "Event 2 UPDATED location",
+    "DateTime": "2024-06-02T15:35:00.000Z"
 }
