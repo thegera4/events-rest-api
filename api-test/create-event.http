@@ -1,10 +1,10 @@
 POST http://localhost:8080/events
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QyQGV4YW1wbGUuY29tIiwiZXhwIjoxNzA0NTYxOTI1LCJ1c2VySWQiOjJ9.yLJeYj-4I1IzrE3tlbHchIn5qTj3Wa9ijT2HKTJNbZQ
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxQGV4YW1wbGUuY29tIiwiZXhwIjoxNzA0NTg5ODQ3LCJ1c2VySWQiOjF9.N7cpV1NR5hwgnxM8lvjqI_NZJuFUt5ph_WFWuHVICmo
 
 {
-    "title": "Event 3",
-    "description": "Event 3 description",
-    "location": "Event 3 location",
-    "DateTime": "2024-03-03T15:35:00.000Z"
+    "title": "Event 1",
+    "description": "Event 1 description",
+    "location": "Event 1 location",
+    "DateTime": "2024-01-01T15:35:00.000Z"
 }

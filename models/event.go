@@ -101,3 +101,69 @@ func (event Event) Delete() error {
 	_, err = stmt.Exec(event.ID)
 	return err
 }
+
+func GetEventsForUser(userId int64) ([]Event, error) {
+	query := "SELECT * FROM registrations WHERE user_id = ?"
+	rows, err := db.DB.Query(query, userId)
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	events := []Event{}
+
+	for rows.Next() {
+		var e Event
+		err := rows.Scan(&e.ID, &e.UserID)
+		if err != nil {
+			return nil, err
+		}
+
+		event, err := GetEventById(e.ID)
+		if err != nil {
+			return nil, err
+		}
+
+		events = append(events, *event)
+	}
+
+	return events, nil
+}
+
+func (e Event) Register(userId int64) error {
+	events, err := GetEventsForUser(userId)
+	if err != nil {
+		return err
+	}
+
+	for _, event := range events {
+		if event.ID == e.ID {
+			return nil
+		}
+	}
+
+	query := "INSERT INTO registrations (event_id, user_id) VALUES (?, ?)"
+	stmt, err := db.DB.Prepare(query)
+	if err != nil {
+		return err
+	}
+
+	defer stmt.Close()
+
+	_, err = stmt.Exec(e.ID, userId)
+	return err
+}
+
+func (e Event) CancelRegistration(userId int64) error { 
+	query := "DELETE FROM registrations WHERE event_id = ? AND user_id = ?"
+	stmt, err := db.DB.Prepare(query)
+	if err != nil {
+		return err
+	}
+
+	defer stmt.Close()
+
+	_, err = stmt.Exec(e.ID, userId)
+	return err
+}
