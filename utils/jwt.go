@@ -2,14 +2,16 @@ package utils
 
 import (
 	"errors"
+	"os"
 	"fmt"
 	"time"
 	"github.com/golang-jwt/jwt/v5"
+	_ "github.com/joho/godotenv/autoload"
 )
 
-const secretKey = "secretKey" //must be replaced with and ENV variable
-
 func GenerateToken(email string, userId int64) (string, error) {
+	secretKey := os.Getenv("JWT_SECRET_KEY")
+
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"email": email,
 		"userId": userId,
@@ -20,6 +22,8 @@ func GenerateToken(email string, userId int64) (string, error) {
 }
 
 func ValidateToken(token string) (int64, error) {
+	secretKey := os.Getenv("JWT_SECRET_KEY")
+	
 	parsedToken, err := jwt.Parse(token, func(token *jwt.Token) (interface{}, error) {
 		_, ok := token.Method.(*jwt.SigningMethodHMAC)
 		if !ok { 

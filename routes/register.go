@@ -49,3 +49,13 @@ func cancelRegistration(context *gin.Context) {
 
 	context.JSON(http.StatusOK, gin.H{"message": "Registration cancelled successfully!"})
 }
+
+func getAllEventsRegistrations(context *gin.Context) {
+	events, err := models.GetAllRegistrations()
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not fetch registrations!"})
+		return
+	}
+
+	context.JSON(http.StatusOK, events)
+}
