@@ -14,6 +14,7 @@ import (
 //NOTE 4 run "go get github.com/golang-jwt/jwt/v5" to get the jwt package
 //NOTE 5 run "go get golang.org/x/crypto/bcrypt" to get the bcrypt package
 //NOTE 6 run "go get github.com/gin-contrib/cors" to get the cors package
+
 func main() {
 	db.InitDB()
 	
@@ -22,7 +23,7 @@ func main() {
 	server.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"http://localhost:3000"},
 		AllowMethods:     []string{"PUT", "DELETE", "GET", "POST"},
-		AllowHeaders:     []string{"Origin"},
+		AllowHeaders:     []string{"Origin", "Content-Type"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 		AllowOriginFunc: func(origin string) bool {
