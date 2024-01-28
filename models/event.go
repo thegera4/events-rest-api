@@ -19,8 +19,8 @@ type Event struct {
 
 func (e *Event) Save() error {
 	query := `
-	INSERT INTO events (title, description, location, date_time, user_id)
-	VALUES (?, ?, ?, ?, ?)
+	INSERT INTO events (title, description, location, date_time, image_url, user_id)
+	VALUES (?, ?, ?, ?, ?, ?)
 	`
 	stmt, err := db.DB.Prepare(query) //Prepare can lead to better performance instead of Exec the query directly
 	if err != nil {
@@ -28,7 +28,7 @@ func (e *Event) Save() error {
 	}
 	defer stmt.Close() //close the statement after the function ends
 
-	result, err := stmt.Exec(e.Title, e.Description, e.Location, e.Date, e.UserID) //Exec to update stuff
+	result, err := stmt.Exec(e.Title, e.Description, e.Location, e.Date, e.ImageURL, e.UserID) //Exec to update stuff
 	if err != nil {
 		return err
 	}
@@ -50,7 +50,7 @@ func GetAllEvents() ([]Event, error) {
 
 	for rows.Next() { //loop through the rows
 		var e Event
-		err := rows.Scan(&e.ID, &e.Title, &e.Description, &e.Location, &e.Date, &e.UserID) //scan the rows and store it in the variable
+		err := rows.Scan(&e.ID, &e.Title, &e.Description, &e.Location, &e.Date, &e.ImageURL, &e.UserID) //scan the rows and store it in the variable
 		if err != nil {
 			return nil, err
 		}
@@ -65,7 +65,7 @@ func GetEventById(id int64) (*Event, error) {
 	row := db.DB.QueryRow(query, id) //QueryRow is used to get/fetch a single row
 
 	var e Event
-	err := row.Scan(&e.ID, &e.Title, &e.Description, &e.Location, &e.Date, &e.UserID)
+	err := row.Scan(&e.ID, &e.Title, &e.Description, &e.Location, &e.Date, &e.ImageURL, &e.UserID)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +76,7 @@ func GetEventById(id int64) (*Event, error) {
 func (event Event) Update() error {
 	query := `
 	UPDATE events
-	SET title = ?, description = ?, location = ?, date_time = ?
+	SET title = ?, description = ?, location = ?, date_time = ?, image_url = ?
 	WHERE id = ?
 	`
 	stmt, err := db.DB.Prepare(query)
@@ -86,7 +86,7 @@ func (event Event) Update() error {
 
 	defer stmt.Close()
 
-	_, err = stmt.Exec(event.Title, event.Description, event.Location, event.Date, event.ID)
+	_, err = stmt.Exec(event.Title, event.Description, event.Location, event.Date, event.ImageURL, event.ID)
 	return err
 }
 
