@@ -1,7 +1,7 @@
 package models
 
 import (
-	"time"
+	//"time"
 	"github.com/thegera4/events-rest-api/db"
 )
 
@@ -10,7 +10,8 @@ type Event struct {
 	Title       string 	  `binding:"required"`
 	Description string 	  `binding:"required"`
 	Location    string 	  `binding:"required"`
-	DateTime    time.Time `binding:"required"`
+	Date    	string 	  `binding:"required"`
+	ImageURL	string
 	UserID      int64   
 }
 
@@ -27,7 +28,7 @@ func (e *Event) Save() error {
 	}
 	defer stmt.Close() //close the statement after the function ends
 
-	result, err := stmt.Exec(e.Title, e.Description, e.Location, e.DateTime, e.UserID) //Exec to update stuff
+	result, err := stmt.Exec(e.Title, e.Description, e.Location, e.Date, e.UserID) //Exec to update stuff
 	if err != nil {
 		return err
 	}
@@ -49,7 +50,7 @@ func GetAllEvents() ([]Event, error) {
 
 	for rows.Next() { //loop through the rows
 		var e Event
-		err := rows.Scan(&e.ID, &e.Title, &e.Description, &e.Location, &e.DateTime, &e.UserID) //scan the rows and store it in the variable
+		err := rows.Scan(&e.ID, &e.Title, &e.Description, &e.Location, &e.Date, &e.UserID) //scan the rows and store it in the variable
 		if err != nil {
 			return nil, err
 		}
@@ -64,7 +65,7 @@ func GetEventById(id int64) (*Event, error) {
 	row := db.DB.QueryRow(query, id) //QueryRow is used to get/fetch a single row
 
 	var e Event
-	err := row.Scan(&e.ID, &e.Title, &e.Description, &e.Location, &e.DateTime, &e.UserID)
+	err := row.Scan(&e.ID, &e.Title, &e.Description, &e.Location, &e.Date, &e.UserID)
 	if err != nil {
 		return nil, err
 	}
@@ -85,7 +86,7 @@ func (event Event) Update() error {
 
 	defer stmt.Close()
 
-	_, err = stmt.Exec(event.Title, event.Description, event.Location, event.DateTime, event.ID)
+	_, err = stmt.Exec(event.Title, event.Description, event.Location, event.Date, event.ID)
 	return err
 }
 

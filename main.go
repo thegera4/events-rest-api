@@ -23,7 +23,7 @@ func main() {
 	server.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"http://localhost:3000"},
 		AllowMethods:     []string{"PUT", "DELETE", "GET", "POST"},
-		AllowHeaders:     []string{"Origin", "Content-Type"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Content-Length", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 		AllowOriginFunc: func(origin string) bool {
