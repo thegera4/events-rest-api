@@ -11,6 +11,7 @@ func RegisterRoutes(server *gin.Engine) {
 	server.GET("/events", getEvents)
 	server.GET("/events/:id", getSingleEvent)
 	server.GET("/events/registrations", getAllEventsRegistrations)
+	server.GET("/events/filtered", getFilteredEvents)
 
 	authenticated := server.Group("/") //create a new group for auth protected routes
 	authenticated.Use(middlewares.Authenticate) //use the Authenticate middleware to protect routes

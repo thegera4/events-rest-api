@@ -1,7 +1,6 @@
 package models
 
 import (
-	//"time"
 	"github.com/thegera4/events-rest-api/db"
 )
 
@@ -14,8 +13,6 @@ type Event struct {
 	ImageURL	string
 	UserID      int64   
 }
-
-//var events = []Event{}
 
 func (e *Event) Save() error {
 	query := `
@@ -51,6 +48,28 @@ func GetAllEvents() ([]Event, error) {
 	for rows.Next() { //loop through the rows
 		var e Event
 		err := rows.Scan(&e.ID, &e.Title, &e.Description, &e.Location, &e.Date, &e.ImageURL, &e.UserID) //scan the rows and store it in the variable
+		if err != nil {
+			return nil, err
+		}
+		events = append(events, e)
+	}
+
+	return events, nil
+}
+
+func FilteredEvents(year *string, month *string) ([]Event, error) {
+	query := "SELECT * FROM events WHERE date_time LIKE ?"
+	rows, err := db.DB.Query(query, *year+"-"+*month+"%")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	events := []Event{}
+
+	for rows.Next() {
+		var e Event
+		err := rows.Scan(&e.ID, &e.Title, &e.Description, &e.Location, &e.Date, &e.ImageURL, &e.UserID)
 		if err != nil {
 			return nil, err
 		}

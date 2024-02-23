@@ -17,6 +17,7 @@ func getEvents(context *gin.Context) {
 	context.JSON(http.StatusOK, events) //you can pass the status code as a number (200)
 }
 
+
 func getSingleEvent(context *gin.Context) {
 	eventId, err := strconv.ParseInt(context.Param("id"), 10, 64) //get the id from the url
 	if err != nil {
@@ -31,6 +32,21 @@ func getSingleEvent(context *gin.Context) {
 	}
 
 	context.JSON(http.StatusOK, event)
+}
+
+func getFilteredEvents(context *gin.Context) {
+	year := context.Query("year") //get the year from the query string
+	month := context.Query("month") //get the month from the query string
+	if len(month) == 1 {
+		month = "0" + month
+	}
+
+	events, err := models.FilteredEvents(&year, &month)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not fetch events!"})
+		return
+	}
+	context.JSON(http.StatusOK, events)
 }
 
 func createEvent(context *gin.Context) {
