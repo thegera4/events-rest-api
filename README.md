@@ -15,3 +15,11 @@ or
 You can visit the documentation made with POSTMAN to see all available endpoints with examples and explanations!: https://documenter.getpostman.com/view/21525358/2s9YsJBCmD
 
 ![image](https://github.com/thegera4/events-rest-api/assets/84020433/5f5376a4-14f6-47cd-b24a-c1104125217f)
+
+or 
+
+You can check the deployed web app at: <a href="https://nextjs-events-lovat.vercel.app/" target="_blank">https://nextjs-events-lovat.vercel.app/</a>
+
+or 
+
+You can check the frontend code here: <a href="https://github.com/thegera4/nextjs-events" target="_blank">https://github.com/thegera4/nextjs-events</a>
